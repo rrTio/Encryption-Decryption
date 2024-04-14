@@ -15,17 +15,14 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-public class Main
-{
+public class testEnc {
     /* Private variable declaration */
     private static final String SECRET_KEY = "123456789";
     private static final String SALTVALUE = "abcdefg";
 
     /* Encryption Method */
-    public static String encrypt(String strToEncrypt)
-    {
-        try
-        {
+    public static String encrypt(String strToEncrypt) {
+        try {
             /* Declare a byte array. */
             byte[] iv = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
             IvParameterSpec ivspec = new IvParameterSpec(iv);
@@ -37,22 +34,19 @@ public class Main
             SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivspec);
-            /* Retruns encrypted value. */
+            /* Returns encrypted value without padding characters. */
             return Base64.getEncoder()
+                    .withoutPadding()
                     .encodeToString(cipher.doFinal(strToEncrypt.getBytes(StandardCharsets.UTF_8)));
-        }
-        catch (InvalidAlgorithmParameterException | InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e)
-        {
-            System.out.println("Error occured during encryption: " + e.toString());
+        } catch (InvalidAlgorithmParameterException | InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
+            System.out.println("Error occurred during encryption: " + e.toString());
         }
         return null;
     }
 
     /* Decryption Method */
-    public static String decrypt(String strToDecrypt)
-    {
-        try
-        {
+    public static String decrypt(String strToDecrypt) {
+        try {
             /* Declare a byte array. */
             byte[] iv = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
             IvParameterSpec ivspec = new IvParameterSpec(iv);
@@ -64,27 +58,25 @@ public class Main
             SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
             cipher.init(Cipher.DECRYPT_MODE, secretKey, ivspec);
-            /* Retruns decrypted value. */
+            /* Returns decrypted value. */
             return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
-        }
-        catch (InvalidAlgorithmParameterException | InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e)
-        {
-            System.out.println("Error occured during decryption: " + e.toString());
+        } catch (InvalidAlgorithmParameterException | InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
+            System.out.println("Error occurred during decryption: " + e.toString());
         }
         return null;
     }
+
     /* Driver Code */
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         /* Message to be encrypted. */
-        String originalval = "HELLO,TEST,ENCRYPTION";
+        String originalVal = "HELLO TEST ENCRPYTION";
         /* Call the encrypt() method and store result of encryption. */
-        String encryptedval = encrypt(originalval);
+        String encryptedVal = encrypt(originalVal);
         /* Call the decrypt() method and store result of decryption. */
-        String decryptedval = decrypt(encryptedval);
+        String decryptedVal = decrypt(encryptedVal);
         /* Display the original message, encrypted message and decrypted message on the console. */
-        System.out.println("Original value: " + originalval);
-        System.out.println("Encrypted value: " + encryptedval);
-        System.out.println("Decrypted value: " + decryptedval);
+        System.out.println("Original value: " + originalVal);
+        System.out.println("Encrypted value: " + encryptedVal);
+        System.out.println("Decrypted value: " + decryptedVal);
     }
-}  
+}
