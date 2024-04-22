@@ -77,7 +77,7 @@ public class Main
     public static void main(String[] args)
     {
         /* Message to be encrypted. */
-        String originalval = "HELLO,TEST,ENCRYPTION";
+        String originalval = "Hello,World,Test,Encrypted,String";
         /* Call the encrypt() method and store result of encryption. */
         String encryptedval = encrypt(originalval);
         /* Call the decrypt() method and store result of decryption. */

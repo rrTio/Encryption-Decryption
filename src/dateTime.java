@@ -15,7 +15,5 @@ public class dateTime {
             System.out.println(currentTime);
             TimeUnit.SECONDS.sleep(1);
         }
-
     }
-
 }
